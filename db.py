@@ -23,6 +23,8 @@ class DBConnection:
     async def get_n_articles(self, n: int):
         return await News.find().limit(n).to_list()
 
+    async def get_count_news(self):
+        return await News.count()
 
 
 connection = DBConnection()
