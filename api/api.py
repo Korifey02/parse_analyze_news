@@ -27,17 +27,9 @@ async def get_all_month_news(amount: int = 100, month_you_wanted: str = Query('�
     return res
 
 @router.get("/get_marked_news")
-async def get_marked_news(amount: int = 100, month_you_wanted: str = Query('Дек', enum=months)):
-    get_marked_news = await connection.get_n_articles_marked(5000)
-
-    res = []
-    for i in range(len(get_marked_news)):
-        if len(res) >= amount:
-            break
-        if month_you_wanted in get_marked_news[i].date:
-            res.append(get_marked_news[i])
-
-    return res
+async def get_marked_news(amount: int = 100):
+    get_marked_news = await connection.get_n_articles_marked(amount)
+    return get_marked_news
 
 @router.get("/count_news")
 async def count_news():

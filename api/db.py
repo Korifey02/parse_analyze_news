@@ -1,5 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import Document, init_beanie
+from typing import List
 
 
 class News(Document):
@@ -10,8 +11,9 @@ class News(Document):
 
 class MarkedNews(Document):
     text: str
+    person_non_person: List
     date: str
-    uri: str
+    url: str
 
 class DBConnection:
     async def my_init(self):
