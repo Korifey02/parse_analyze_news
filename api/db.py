@@ -15,10 +15,17 @@ class MarkedNews(Document):
     date: str
     url: str
 
+class Tonalty(Document):
+    text: str
+    ton: str
+    person_non_person: List
+
+# class
+
 class DBConnection:
     async def my_init(self):
         client = AsyncIOMotorClient("localhost", 27017, username="root", password="root123")
-        await init_beanie(database=client.parser, document_models=[News, MarkedNews])
+        await init_beanie(database=client.parser, document_models=[News, MarkedNews, Tonalty])
 
     async def _if_article_exists(self, url: str):
         return await News.find_one(News.url == url)
@@ -34,6 +41,10 @@ class DBConnection:
 
     async def get_count_news(self):
         return await News.count()
+
+    async def get_ton(self):
+        # {"ton": "Negative"}
+        return await Tonalty.find().to_list()
 
 
 connection = DBConnection()

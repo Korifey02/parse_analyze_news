@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Query
 from controller import ApiController
 from db import connection
 import operator
+from gensim.models import Word2Vec
 
 
 router = APIRouter(prefix="/parse")
@@ -37,4 +38,26 @@ async def count_news():
     # print(res)
     return {"count": res}
 
+@router.get("/word2vec")
+async def get_word_2_vec(word: str):
+    # ../ word2vec_model / word2vec.model
+    model = Word2Vec.load('../word2vec/word2vec_model/word2vec.model')
+    entry_word = word.replace(' ', '')
+    entry_word = entry_word.lower()
+    try:
+        res = model.wv.most_similar(positive=[entry_word], topn=30)
+        # print(model.wv.most_similar(positive=[entry_word], topn=30))
+    except:
+        res = []
+    return res
 
+
+@router.get("/tonalty")
+async def get_tonalty():
+    res = await connection.get_ton()
+    ma_set = set()
+    for i in res:
+        ma_set.add(i.person_non_person[0])
+    print(len(ma_set))
+    # print(res)
+    return res
