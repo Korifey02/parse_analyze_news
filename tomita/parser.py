@@ -29,7 +29,7 @@ client = MongoClient(host='localhost',
 
 db = client['parser']
 collection = db.News
-raw_news = collection.find(no_cursor_timeout=True).skip(6500)
+raw_news = collection.find(no_cursor_timeout=True)
 cnt_news = 10006
 
 for news in raw_news:
